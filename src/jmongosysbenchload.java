@@ -75,10 +75,10 @@ public class jmongosysbenchload {
             myWC = WriteConcern.FSYNC_SAFE;
         }
         else if ((myWriteConcern.toLowerCase().equals("none"))) {
-            myWC = WriteConcern.NONE;
+            myWC = WriteConcern.UNACKNOWLEDGED;
         }
         else if ((myWriteConcern.toLowerCase().equals("normal"))) {
-            myWC = WriteConcern.NORMAL;
+            myWC = WriteConcern.ACKNOWLEDGED;
         }
         else if ((myWriteConcern.toLowerCase().equals("replicas_safe"))) {
             myWC = WriteConcern.REPLICAS_SAFE;
@@ -284,7 +284,7 @@ public class jmongosysbenchload {
 
             logMe("Writer thread %d : creating collection %s secondary index",threadNumber, collectionName);
 
-            coll.ensureIndex(new BasicDBObject("k", 1), idxOptions);
+            coll.createIndex(new BasicDBObject("k", 1), idxOptions);
 
             long numInserts = 0;
             int id = 0;

@@ -112,7 +112,7 @@ public class jmongosysbenchexecute {
             myWC = WriteConcern.FSYNC_SAFE;
         }
         else if ((myWriteConcern.toLowerCase().equals("none"))) {
-            myWC = WriteConcern.NONE;
+            myWC = WriteConcern.UNACKNOWLEDGED;
         }
         else if ((myWriteConcern.toLowerCase().equals("normal"))) {
             myWC = WriteConcern.NORMAL;
@@ -286,8 +286,8 @@ public class jmongosysbenchexecute {
 
                 // if TokuMX, lock onto current connection (do not pool)
                 if (bIsTokuMX && !auto_commit) {
-                    db.requestStart();
-                    db.command("beginTransaction");
+                    //db.requestStart();
+                    //db.command("beginTransaction");
                 }
 
                 String collectionName = "sbtest" + Integer.toString(rand.nextInt(numCollections)+1);
@@ -296,7 +296,7 @@ public class jmongosysbenchexecute {
                 try {
                     if (bIsTokuMX && !auto_commit) {
                         // make sure a connection is available, given that we are not pooling
-                        db.requestEnsureConnection();
+                        //db.requestEnsureConnection();
                     }
 
                     for (int i=1; i <= oltpPointSelects; i++) {
@@ -487,7 +487,7 @@ public class jmongosysbenchexecute {
                         // commit the transaction and release current connection in the pool
                         db.command("commitTransaction");
                         //--db.command("rollbackTransaction")
-                        db.requestDone();
+                        //db.requestDone();
                     }
                 }
             }
